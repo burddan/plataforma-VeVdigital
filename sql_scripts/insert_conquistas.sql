@@ -1,4 +1,4 @@
-INSERT INTO conquistas (nome, descricao, icone, status)
+INSERT INTO conquistas (nome, descricao, status)
 VALUES
   (
     'Primeira Mensagem',
