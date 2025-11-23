@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { IntroScreen } from "./components/IntroScreen";
 import { RegisterScreen } from "./components/RegisterScreen";
 import { GenderScreen } from "./components/GenderScreen";

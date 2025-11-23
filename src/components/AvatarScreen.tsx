@@ -1,102 +1,109 @@
 import { Button } from "./ui/button";
 import { useState, useRef } from "react";
 import { Camera, Image, User } from "lucide-react";
+import { useScreenAudio } from "../useScreenAudio";
 
 interface AvatarScreenProps {
-  onContinue: (avatarUrl: string) => void;
-  onGoToFaceRecognition: () => void;
-  userName: string;
+		onContinue: (avatarUrl: string) => void;
+		onGoToFaceRecognition: () => void;
+		userName: string;
 }
 
 export function AvatarScreen({ onContinue, onGoToFaceRecognition, userName }: AvatarScreenProps) {
-  const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+		const { stopAudio } = useScreenAudio("foto.mp3"); // <-- agora só coloca o nome do arquivo
+		const handleContinue = () => {
+				stopAudio();     // para o áudio
+				onContinue();    // muda de tela
+		};
 
-  const handleCamera = () => {
-    // Navega para a tela de reconhecimento facial
-    onGoToFaceRecognition();
-  };
+		const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
+		const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target?.result as string;
-        setSelectedAvatar(result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+		const handleCamera = () => {
+				// Navega para a tela de reconhecimento facial
+				onGoToFaceRecognition();
+		};
 
-  const handleGallery = () => {
-    fileInputRef.current?.click();
-  };
+		const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+				const file = e.target.files?.[0];
+				if (file) {
+						const reader = new FileReader();
+						reader.onload = (event) => {
+								const result = event.target?.result as string;
+								setSelectedAvatar(result);
+						};
+						reader.readAsDataURL(file);
+				}
+		};
 
-  const handleSubmit = () => {
-    if (selectedAvatar) {
-      onContinue(selectedAvatar);
-    }
-  };
+		const handleGallery = () => {
+				fileInputRef.current?.click();
+		};
 
-  return (
-    <div className="size-full flex flex-col bg-linear-to-b from-amber-50 to-orange-50 overflow-y-auto">
-      {/* Área de conteúdo principal */}
-      <div className="flex-1 flex flex-col items-center justify-center px-8 py-12">
-        
-        {/* Título */}
-        <h1 className="text-center mb-3 text-amber-900 text-4xl font-bold">
-          Escolha sua foto
-        </h1>
+		const handleSubmit = () => {
+				if (selectedAvatar) {
+						onContinue(selectedAvatar);
+				}
+		};
 
-        {/* Texto explicativo */}
-        <p className="text-center mb-8 text-amber-800 text-lg max-w-xs">
-          Como deseja adicionar sua foto?
-        </p>
+		return (
+				<div className="size-full flex flex-col bg-linear-to-b from-amber-50 to-orange-50 overflow-y-auto">
+				{/* Área de conteúdo principal */}
+				<div className="flex-1 flex flex-col items-center justify-center px-8 py-12">
 
-        {/* Preview do avatar */}
-        <div className="mb-8">
-          <div className="w-32 h-32 rounded-full bg-white border-4 border-orange-300 shadow-lg flex items-center justify-center overflow-hidden">
-            {selectedAvatar ? (
-              <img src={selectedAvatar} alt="Avatar" className="w-full h-full object-cover" />
-            ) : (
-              <User className="w-16 h-16 text-orange-300" strokeWidth={2} />
-            )}
-          </div>
-        </div>
+				{/* Título */}
+				<h1 className="text-center mb-3 text-amber-900 text-4xl font-bold">
+				Escolha sua foto
+				</h1>
 
-        {/* Botões de escolha grandes */}
-        <div className="w-full max-w-sm space-y-4">
-          {/* Botão Tirar Selfie */}
-          <button
-            onClick={handleCamera}
-            className="w-full h-24 bg-white border-4 border-orange-300 hover:border-orange-400 rounded-2xl shadow-md flex items-center justify-center gap-4 transition-all hover:scale-105 active:scale-95"
-          >
-            <div className="bg-linear-to-br from-orange-400 to-amber-500 rounded-full p-3">
-              <Camera className="w-8 h-8 text-white" strokeWidth={2} />
-            </div>
-            <span className="text-amber-900 text-2xl font-bold">Tirar Selfie</span>
-          </button>
+				{/* Texto explicativo */}
+				<p className="text-center mb-8 text-amber-800 text-lg max-w-xs">
+				Como deseja adicionar sua foto?
+				</p>
 
-          {/* Botão Escolher Imagem */}
-          <button
-            onClick={handleGallery}
-            className="w-full h-24 bg-white border-4 border-orange-300 hover:border-orange-400 rounded-2xl shadow-md flex items-center justify-center gap-4 transition-all hover:scale-105 active:scale-95"
-          >
-            <div className="bg-linear-to-br from-orange-400 to-amber-500 rounded-full p-3">
-              <Image className="w-8 h-8 text-white" strokeWidth={2} />
-            </div>
-            <span className="text-amber-900 text-2xl font-bold">Escolher Imagem</span>
-          </button>
+				{/* Preview do avatar */}
+				<div className="mb-8">
+				<div className="w-32 h-32 rounded-full bg-white border-4 border-orange-300 shadow-lg flex items-center justify-center overflow-hidden">
+				{selectedAvatar ? (
+						<img src={selectedAvatar} alt="Avatar" className="w-full h-full object-cover" />
+				) : (
+				<User className="w-16 h-16 text-orange-300" strokeWidth={2} />
+				)}
+				</div>
+				</div>
 
-          {/* Input escondido para seleção de arquivo */}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFileSelect}
-            className="hidden"
-          />
+				{/* Botões de escolha grandes */}
+				<div className="w-full max-w-sm space-y-4">
+				{/* Botão Tirar Selfie */}
+				<button
+				onClick={handleCamera}
+				className="w-full h-24 bg-white border-4 border-orange-300 hover:border-orange-400 rounded-2xl shadow-md flex items-center justify-center gap-4 transition-all hover:scale-105 active:scale-95"
+				>
+				<div className="bg-linear-to-br from-orange-400 to-amber-500 rounded-full p-3">
+				<Camera className="w-8 h-8 text-white" strokeWidth={2} />
+				</div>
+				<span className="text-amber-900 text-2xl font-bold">Tirar Selfie</span>
+				</button>
+
+				{/* Botão Escolher Imagem */}
+				<button
+				onClick={handleGallery}
+				className="w-full h-24 bg-white border-4 border-orange-300 hover:border-orange-400 rounded-2xl shadow-md flex items-center justify-center gap-4 transition-all hover:scale-105 active:scale-95"
+				>
+				<div className="bg-linear-to-br from-orange-400 to-amber-500 rounded-full p-3">
+				<Image className="w-8 h-8 text-white" strokeWidth={2} />
+				</div>
+				<span className="text-amber-900 text-2xl font-bold">Escolher Imagem</span>
+				</button>
+
+				{/* Input escondido para seleção de arquivo */}
+				<input
+				ref={fileInputRef}
+				type="file"
+				accept="image/*"
+				onChange={handleFileSelect}
+				className="hidden"
+				/>
         </div>
 
         {/* Mensagem de incentivo */}
