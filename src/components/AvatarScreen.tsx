@@ -10,9 +10,9 @@ interface AvatarScreenProps {
 }
 
 export function AvatarScreen({ onContinue, onGoToFaceRecognition, userName }: AvatarScreenProps) {
-		const { stopAudio } = useScreenAudio("foto.mp3"); // <-- agora só coloca o nome do arquivo
+		const { stopAudio } = useScreenAudio("foto.mp3"); 
 		const handleContinue = () => {
-				stopAudio();     // para o áudio
+				stopAudio();     // para o áudi
 				onContinue();    // muda de tela
 		};
 
