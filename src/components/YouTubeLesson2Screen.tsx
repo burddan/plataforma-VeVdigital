@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import {
   ArrowLeft,
@@ -12,6 +12,7 @@ import youtubeStep3 from "../imagens/youtube-licao2-passo3.png";
 import youtubeStep4 from "../imagens/youtube-licao2-passo4.png";
 import youtubeStep5 from "../imagens/youtube-licao2-passo5.png";
 import youtubeStep6 from "../imagens/youtube-licao2-passo6.png";
+import { useScreenAudio } from "../useScreenAudio";
 
 interface YouTubeLesson2ScreenProps {
   onComplete: () => void;
@@ -24,7 +25,19 @@ export function YouTubeLesson2Screen({
 }: YouTubeLesson2ScreenProps) {
   const [currentStep, setCurrentStep] = useState(1);
 
+  // Use o hook useScreenAudio para tocar o áudio correspondente a cada etapa
+  const { stopAudio } = useScreenAudio(currentStep === 7 ? "licaoconcluida.mp3" : `yt1_${currentStep}.mp3`);
+
+  // Para a tela final (passo 7), não toca áudio
+  useEffect(() => {
+    if (currentStep === 7) {
+    }
+  }, [currentStep, stopAudio]);
+
   const handleNext = () => {
+    // Para o áudio atual antes de mudar de etapa
+    stopAudio();
+    
     if (currentStep < 6) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -32,7 +45,13 @@ export function YouTubeLesson2Screen({
     }
   };
 
+  const handleBack = () => {
+    stopAudio();
+    onBack();
+  };
+
   const handleFinish = () => {
+    stopAudio();
     onComplete();
   };
 
@@ -105,7 +124,7 @@ export function YouTubeLesson2Screen({
       <div className="pt-10 px-6 pb-4 border-b-2 border-orange-200">
         <div className="flex items-center justify-between mb-3">
           <Button
-            onClick={onBack}
+            onClick={handleBack}
             variant="ghost"
             className="text-orange-700 hover:bg-orange-100 p-2 h-auto"
           >
@@ -241,7 +260,7 @@ export function YouTubeLesson2Screen({
                 alt="Opções de notificação" 
                 className="w-full h-auto"
               />
-              {/* Botão de destaque laranja na opç��o "Todas" - CLICÁVEL */}
+              {/* Botão de destaque laranja na opção "Todas" - CLICÁVEL */}
               <button 
                 onClick={handleNext}
                 className="absolute cursor-pointer hover:scale-110 transition-transform" 

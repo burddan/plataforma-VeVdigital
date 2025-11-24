@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import {
   ArrowLeft,
@@ -11,6 +11,7 @@ import whatsappPhotoStep1 from "../imagens/whatsapp-licao3-foto-passo1.png";
 import whatsappPhotoStep2 from "../imagens/whatsapp-licao3-foto-passo2.png";
 import whatsappPhotoStep3 from "../imagens/whatsapp-licao3-foto-passo3.png";
 import whatsappPhotoStep4 from "../imagens/whatsapp-licao3-foto-passo4.png";
+import { useScreenAudio } from "../useScreenAudio";
 
 interface WhatsAppLesson3ScreenProps {
   onComplete: () => void;
@@ -23,7 +24,15 @@ export function WhatsAppLesson3Screen({
 }: WhatsAppLesson3ScreenProps) {
   const [currentStep, setCurrentStep] = useState(1);
 
+  // Use o hook useScreenAudio para tocar o áudio correspondente a cada etapa
+  const { stopAudio } = useScreenAudio(
+    currentStep === 5 ? "licaoconcluida.mp3" : `w3_${currentStep}.mp3`
+  );
+
   const handleNext = () => {
+    // Para o áudio atual antes de mudar de etapa
+    stopAudio();
+    
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -31,7 +40,13 @@ export function WhatsAppLesson3Screen({
     }
   };
 
+  const handleBack = () => {
+    stopAudio();
+    onBack();
+  };
+
   const handleFinish = () => {
+    stopAudio();
     onComplete();
   };
 
@@ -104,7 +119,7 @@ export function WhatsAppLesson3Screen({
       <div className="pt-10 px-6 pb-4 border-b-2 border-orange-200">
         <div className="flex items-center justify-between mb-3">
           <Button
-            onClick={onBack}
+            onClick={handleBack}
             variant="ghost"
             className="text-orange-700 hover:bg-orange-100 p-2 h-auto"
           >

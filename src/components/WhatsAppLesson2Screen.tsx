@@ -8,6 +8,7 @@ import {
 import whatsappIcon from "../imagens/whatsapp-icon.png";
 import whatsappAudioStep1 from "../imagens/whatsapp-licao2-audio-passo1.png";
 import whatsappAudioStep3 from "../imagens/whatsapp-licao2-audio-passo3.png";
+import { useScreenAudio } from "../useScreenAudio";
 
 interface WhatsAppLesson2ScreenProps {
   onComplete: () => void;
@@ -24,7 +25,15 @@ export function WhatsAppLesson2Screen({
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Use o hook useScreenAudio para tocar o áudio correspondente a cada etapa
+  const { stopAudio } = useScreenAudio(
+    currentStep === 4 ? "licaoconcluida.mp3" : `w2_${currentStep}.mp3`
+  );
+
   const handleNext = () => {
+    // Para o áudio atual antes de mudar de etapa
+    stopAudio();
+    
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -32,7 +41,13 @@ export function WhatsAppLesson2Screen({
     }
   };
 
+  const handleBack = () => {
+    stopAudio();
+    onBack();
+  };
+
   const handleFinish = () => {
+    stopAudio();
     onComplete();
   };
 
@@ -59,7 +74,7 @@ export function WhatsAppLesson2Screen({
           clearInterval(progressIntervalRef.current);
         }
         // Avançar para o próximo passo após 3 segundos
-        setCurrentStep(3);
+        handleNext(); // Usar handleNext em vez de setCurrentStep diretamente
       }, 3000);
     }
   };
@@ -159,7 +174,7 @@ export function WhatsAppLesson2Screen({
       <div className="pt-10 px-6 pb-4 border-b-2 border-orange-200">
         <div className="flex items-center justify-between mb-3">
           <Button
-            onClick={onBack}
+            onClick={handleBack}
             variant="ghost"
             className="text-orange-700 hover:bg-orange-100 p-2 h-auto"
           >
