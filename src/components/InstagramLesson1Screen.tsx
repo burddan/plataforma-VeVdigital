@@ -171,7 +171,7 @@ export function InstagramLesson1Screen({
               <button
                 onClick={handleNext}
                 className="absolute w-16 h-16 rounded-full bg-orange-500/40 border-3 border-orange-500 hover:scale-110 transition-transform animate-pulse"
-                style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                style={{ top: '10%', left: '10%', transform: 'translate(-50%, -50%)' }}
               >
               </button>
             </div>
@@ -199,7 +199,7 @@ export function InstagramLesson1Screen({
               <button
                 onClick={handleNext}
                 className="absolute w-16 h-16 rounded-full bg-orange-500/40 border-3 border-orange-500 hover:scale-110 transition-transform animate-pulse"
-                style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                style={{ top: '68%', left: '60%', transform: 'translate(-50%, -50%)' }}
               >
               </button>
             </div>
@@ -248,7 +248,7 @@ export function InstagramLesson1Screen({
               <button
                 onClick={handleNext}
                 className="absolute w-16 h-16 rounded-full bg-orange-500/40 border-3 border-orange-500 hover:scale-110 transition-transform animate-pulse"
-                style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                style={{ top: '96%', left: '50%', transform: 'translate(-50%, -50%)' }}
               >
               </button>
             </div>
