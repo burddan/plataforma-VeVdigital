@@ -1,4 +1,5 @@
 import { Progress } from "./ui/progress";
+
 import youtubeIcon from "../imagens/youtube-icon.png";
 import whatsappIcon from "../imagens/whatsapp-icon.png";
 import instagramIcon from "../imagens/instagram-icon.png";
@@ -42,6 +43,12 @@ export function DashboardScreen({ userName, userAvatar, completedLessons, onSele
   ];
   const youtubeProgress = Math.round((youtubeLessons.filter(l => l.completed).length / youtubeLessons.length) * 100);
 
+  // Calcular progresso do Instagram baseado nas lições completadas
+  const instagramLessons = [
+    { id: "instagram-lesson-1", title: "Postando uma Foto", completed: completedLessons.includes("instagram-lesson-1") }
+  ];
+  const instagramProgress = Math.round((instagramLessons.filter(l => l.completed).length / instagramLessons.length) * 100);
+
   const apps: AppProgress[] = [
     {
       name: "YouTube",
@@ -60,13 +67,14 @@ export function DashboardScreen({ userName, userAvatar, completedLessons, onSele
     {
       name: "Instagram",
       icon: instagramIcon,
-      progress: 0,
-      color: "from-pink-500 to-purple-600"
+      progress: instagramProgress,
+      color: "from-pink-500 to-purple-600",
+      lessons: instagramLessons
     }
   ];
 
   return (
-    <div className="size-full flex flex-col bg-linear-to-b from-amber-50 to-orange-50">
+    <div className="size-full flex flex-col bg-gradient-to-b from-amber-50 to-orange-50">
       {/* Header */}
       <div className="px-6 pt-12 pb-4 flex items-center justify-between border-b-2 border-orange-200">
         <div>
@@ -75,7 +83,7 @@ export function DashboardScreen({ userName, userAvatar, completedLessons, onSele
         </div>
         <button
           onClick={onProfileClick}
-          className="w-16 h-16 rounded-full bg-white border-4 border-orange-300 shadow-lg overflow-hidden shrink-0 hover:border-orange-500 transition-all hover:scale-110 active:scale-95"
+          className="w-16 h-16 rounded-full bg-white border-4 border-orange-300 shadow-lg overflow-hidden flex-shrink-0 hover:border-orange-500 transition-all hover:scale-110 active:scale-95"
         >
           <img src={userAvatar} alt={userName} className="w-full h-full object-cover" />
         </button>
@@ -94,7 +102,7 @@ export function DashboardScreen({ userName, userAvatar, completedLessons, onSele
             <div key={app.name} className="bg-white border-4 border-orange-200 rounded-2xl p-6 shadow-lg">
               {/* Ícone e Nome */}
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-20 h-20 rounded-2xl bg-white flex items-center justify-center shadow-md p-2 shrink-0">
+                <div className="w-20 h-20 rounded-2xl bg-white flex items-center justify-center shadow-md p-2 flex-shrink-0">
                   <img src={app.icon} alt={app.name} className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1 text-left">
@@ -110,7 +118,7 @@ export function DashboardScreen({ userName, userAvatar, completedLessons, onSele
                 </div>
                 <div className="relative h-3 bg-orange-100 rounded-full overflow-hidden">
                   <div
-                    className={`absolute top-0 left-0 h-full bg-linear-to-r ${app.color} transition-all duration-500 rounded-full`}
+                    className={`absolute top-0 left-0 h-full bg-gradient-to-r ${app.color} transition-all duration-500 rounded-full`}
                     style={{ width: `${app.progress}%` }}
                   />
                 </div>

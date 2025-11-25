@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useEffect } from "react";
 import { IntroScreen } from "./components/IntroScreen";
 import { RegisterScreen } from "./components/RegisterScreen";
 import { GenderScreen } from "./components/GenderScreen";
@@ -15,9 +14,10 @@ import { WhatsAppLesson3Screen } from "./components/WhatsAppLesson3Screen";
 import { YouTubeLesson1Screen } from "./components/YouTubeLesson1Screen";
 import { YouTubeLesson2Screen } from "./components/YouTubeLesson2Screen";
 import { YouTubeLesson3Screen } from "./components/YouTubeLesson3Screen";
+import { InstagramLesson1Screen } from "./components/InstagramLesson1Screen";
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<"intro" | "register" | "gender" | "birthdate" | "location" | "avatar" | "faceRecognition" | "dashboard" | "profile" | "whatsappLesson" | "whatsappLesson2" | "whatsappLesson3" | "youtubeLesson1" | "youtubeLesson2" | "youtubeLesson3">("intro");
+  const [currentScreen, setCurrentScreen] = useState<"intro" | "register" | "gender" | "birthdate" | "location" | "avatar" | "faceRecognition" | "dashboard" | "profile" | "whatsappLesson" | "whatsappLesson2" | "whatsappLesson3" | "youtubeLesson1" | "youtubeLesson2" | "youtubeLesson3" | "instagramLesson1">("intro");
   const [userName, setUserName] = useState("");
   const [userGender, setUserGender] = useState<'masculino' | 'feminino' | ''>("");
   const [userBirthdate, setUserBirthdate] = useState("");
@@ -112,6 +112,17 @@ export default function App() {
           setCurrentScreen("youtubeLesson1");
         }
       }
+    } else if (app === "Instagram") {
+      if (lessonId === "instagram-lesson-1") {
+        setCurrentScreen("instagramLesson1");
+      } else {
+        // Por padrão, vai para a primeira lição não completada
+        if (!completedLessons.includes("instagram-lesson-1")) {
+          setCurrentScreen("instagramLesson1");
+        } else {
+          setCurrentScreen("instagramLesson1");
+        }
+      }
     }
     // Aqui você pode navegar para a tela de aprendizado dos outros apps
   };
@@ -196,10 +207,22 @@ export default function App() {
     setCurrentScreen("dashboard");
   };
 
+  const handleInstagramLesson1Complete = () => {
+    // Desbloquear a conquista "Fotógrafo do Instagram"
+    if (!unlockedAchievements.includes("fotografo-instagram")) {
+      setUnlockedAchievements([...unlockedAchievements, "fotografo-instagram"]);
+    }
+    // Marcar lição 1 do Instagram como completa
+    if (!completedLessons.includes("instagram-lesson-1")) {
+      setCompletedLessons([...completedLessons, "instagram-lesson-1"]);
+    }
+    setCurrentScreen("dashboard");
+  };
+
   return (
     <div className="size-full bg-gray-900 flex items-center justify-center p-4">
       {/* Container do celular */}
-      <div className="w-full max-w-[390px] h-[844px] max-h-[95vh] bg-white rounded-[3rem] shadow-2xl overflow-hidden border-14 border-gray-800 relative">
+      <div className="w-full max-w-[390px] h-[844px] max-h-[95vh] bg-white rounded-[3rem] shadow-2xl overflow-hidden border-[14px] border-gray-800 relative">
         {/* Notch/Dynamic Island */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-gray-800 rounded-b-3xl z-10"></div>
         
@@ -219,6 +242,7 @@ export default function App() {
         {currentScreen === "youtubeLesson1" && <YouTubeLesson1Screen onComplete={handleYouTubeLesson1Complete} onBack={handleBackToDashboard} />}
         {currentScreen === "youtubeLesson2" && <YouTubeLesson2Screen onComplete={handleYouTubeLesson2Complete} onBack={handleBackToDashboard} />}
         {currentScreen === "youtubeLesson3" && <YouTubeLesson3Screen onComplete={handleYouTubeLesson3Complete} onBack={handleBackToDashboard} />}
+        {currentScreen === "instagramLesson1" && <InstagramLesson1Screen onComplete={handleInstagramLesson1Complete} onBack={handleBackToDashboard} />}
       </div>
     </div>
   );
