@@ -2,6 +2,7 @@ import { Button } from "./ui/button";
 import { ArrowLeft, Trophy, Star, Repeat, Award, CheckCircle } from "lucide-react";
 import whatsappIcon from "../imagens/whatsapp-icon.png";
 import youtubeIcon from "../imagens/youtube-icon.png";
+import instagramIcon from "../imagens/instagram-icon.png";
 import { useScreenAudio } from "../useScreenAudio";
 
 interface ProfileScreenProps {
@@ -29,7 +30,7 @@ export function ProfileScreen({ userName, userAvatar, userGender, userBirthdate,
 				stopAudio();     // para o áudio
 				onContinue();    // muda de tela
 		};
-	// Calcular idade
+		// Calcular idade
 		const calculateAge = (birthdate: string) => {
 				const [day, month, year] = birthdate.split('/');
 				const birth = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
@@ -109,6 +110,15 @@ export function ProfileScreen({ userName, userAvatar, userGender, userBirthdate,
 						iconType: 'image',
 						unlocked: unlockedAchievements.includes('falador-youtube'),
 						color: 'from-red-400 to-red-500'
+				},
+				{
+						id: 'fotografo-instagram',
+						title: 'Primeira Foto 📸',
+						description: 'Postou sua primeira foto no Instagram',
+						icon: instagramIcon,
+						iconType: 'image',
+						unlocked: unlockedAchievements.includes('fotografo-instagram'),
+						color: 'from-pink-500 via-purple-500 to-orange-500'
 				},
 				{
 						id: 'persistente',
