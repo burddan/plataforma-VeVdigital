@@ -3,13 +3,13 @@ import { useState, useRef } from "react";
 import { Camera, Image, User } from "lucide-react";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface AvatarScreenProps {
+interface AvatarProps {
 		onContinue: (avatarUrl: string) => void;
 		onGoToFaceRecognition: () => void;
 		userName: string;
 }
 
-export function AvatarScreen({ onContinue, onGoToFaceRecognition, userName }: AvatarScreenProps) {
+export function Avatar({ onContinue, onGoToFaceRecognition, userName }: AvatarProps) {
 		const { stopAudio } = useScreenAudio("foto.mp3"); 
 		const handleContinue = () => {
 				stopAudio();     // para o áudi

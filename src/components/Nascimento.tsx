@@ -3,12 +3,12 @@ import { useState } from "react";
 import { Calendar } from "lucide-react";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface BirthdateScreenProps {
+interface NascimentoProps {
 		onContinue: (birthdate: string) => void;
 		userName: string;
 }
 
-export function BirthdateScreen({ onContinue, userName }: BirthdateScreenProps) {
+export function Nascimento({ onContinue, userName }: NascimentoProps) {
 		const { stopAudio } = useScreenAudio("data.mp3"); // <-- agora só coloca o nome do arquivo
 		const handleContinue = () => {
 				stopAudio();     // para o áudio

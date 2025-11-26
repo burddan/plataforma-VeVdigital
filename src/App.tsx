@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { IntroScreen } from "./components/IntroScreen";
-import { RegisterScreen } from "./components/RegisterScreen";
-import { GenderScreen } from "./components/GenderScreen";
-import { BirthdateScreen } from "./components/BirthdateScreen";
-import { LocationScreen } from "./components/LocationScreen";
-import { AvatarScreen } from "./components/AvatarScreen";
-import { FaceRecognitionScreen } from "./components/FaceRecognitionScreen";
-import { DashboardScreen } from "./components/DashboardScreen";
+import { Inicio } from "./components/Inicio";
+import { Registro } from "./components/Registro";
+import { Genero } from "./components/Genero";
+import { Nascimento } from "./components/Nascimento";
+import { Localizacao } from "./components/Localizacao";
+import { Avatar } from "./components/Avatar";
+import { ReconhecimentoFacial } from "./components/ReconhecimentoFacial";
+import { Dashboard } from "./components/Dashboard";
 import { ProfileScreen } from "./components/ProfileScreen";
 import { WhatsAppLessonScreen } from "./components/WhatsAppLessonScreen";
 import { WhatsAppLesson2Screen } from "./components/WhatsAppLesson2Screen";
@@ -227,14 +227,14 @@ export default function App() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-gray-800 rounded-b-3xl z-10"></div>
         
         {/* Conteúdo do aplicativo */}
-        {currentScreen === "intro" && <IntroScreen onStart={handleStart} />}
-        {currentScreen === "register" && <RegisterScreen onContinue={handleRegister} />}
-        {currentScreen === "gender" && <GenderScreen onContinue={handleGender} userName={userName} />}
-        {currentScreen === "birthdate" && <BirthdateScreen onContinue={handleBirthdate} userName={userName} />}
-        {currentScreen === "location" && <LocationScreen onContinue={handleLocation} userName={userName} />}
-        {currentScreen === "avatar" && <AvatarScreen onContinue={handleAvatar} userName={userName} onGoToFaceRecognition={handleGoToFaceRecognition} />}
-        {currentScreen === "faceRecognition" && <FaceRecognitionScreen onCapture={handleFaceCapture} onBack={handleBackToAvatar} userName={userName} />}
-        {currentScreen === "dashboard" && <DashboardScreen userName={userName} userAvatar={userAvatar} completedLessons={completedLessons} onSelectApp={handleSelectApp} onProfileClick={handleProfileClick} />}
+        {currentScreen === "intro" && <Inicio onStart={handleStart} />}
+        {currentScreen === "register" && <Registro onContinue={handleRegister} />}
+        {currentScreen === "gender" && <Genero onContinue={handleGender} userName={userName} />}
+        {currentScreen === "birthdate" && <Nascimento onContinue={handleBirthdate} userName={userName} />}
+        {currentScreen === "location" && <Localizacao onContinue={handleLocation} userName={userName} />}
+        {currentScreen === "avatar" && <Avatar onContinue={handleAvatar} userName={userName} onGoToFaceRecognition={handleGoToFaceRecognition} />}
+        {currentScreen === "faceRecognition" && <ReconhecimentoFacial onCapture={handleFaceCapture} onBack={handleBackToAvatar} userName={userName} />}
+        {currentScreen === "dashboard" && <Dashboard userName={userName} userAvatar={userAvatar} completedLessons={completedLessons} onSelectApp={handleSelectApp} onProfileClick={handleProfileClick} />}
         {currentScreen === "profile" && <ProfileScreen userName={userName} userAvatar={userAvatar} userGender={userGender as 'masculino' | 'feminino'} userBirthdate={userBirthdate} unlockedAchievements={unlockedAchievements} onBack={handleBackToDashboard} />}
         {currentScreen === "whatsappLesson" && <WhatsAppLessonScreen onComplete={handleLessonComplete} onBack={handleBackToDashboard} />}
         {currentScreen === "whatsappLesson2" && <WhatsAppLesson2Screen onComplete={handleLesson2Complete} onBack={handleBackToDashboard} />}

@@ -4,7 +4,7 @@ import { MapPin, Search, ChevronRight, ArrowLeft } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface LocationScreenProps {
+interface LocalizacaoProps {
 		onContinue: (state: string, city: string) => void;
 		userName: string;
 }
@@ -71,7 +71,7 @@ const CIDADES: { [key: string]: string[] } = {
 		"TO": ["Palmas", "Araguaína", "Gurupi", "Porto Nacional", "Paraíso do Tocantins"]
 };
 
-export function LocationScreen({ onContinue, userName }: LocationScreenProps) {
+export function Localizacao({ onContinue, userName }: LocalizacaoProps) {
 		const { stopAudio } = useScreenAudio("cidade.mp3"); // <-- agora só coloca o nome do arquivo
 		const handleContinue = () => {
 				stopAudio();     // para o áudio

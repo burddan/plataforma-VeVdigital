@@ -3,11 +3,11 @@ import { useState, useRef } from "react";
 import { Smile } from "lucide-react";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface RegisterScreenProps {
+interface RegistroProps {
 		onContinue: (name: string) => void;
 }
 
-export function RegisterScreen({ onContinue }: RegisterScreenProps) {
+export function Registro({ onContinue }: RegistroProps) {
 		const { stopAudio } = useScreenAudio("nome.mp3"); // <-- agora só coloca o nome do arquivo
 		const handleContinue = () => {
 				stopAudio();     // para o áudio

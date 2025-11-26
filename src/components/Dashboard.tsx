@@ -4,7 +4,7 @@ import youtubeIcon from "../imagens/youtube-icon.png";
 import whatsappIcon from "../imagens/whatsapp-icon.png";
 import instagramIcon from "../imagens/instagram-icon.png";
 
-interface DashboardScreenProps {
+interface DashboardProps {
   userName: string;
   userAvatar: string;
   completedLessons: string[];
@@ -26,7 +26,7 @@ interface Lesson {
   completed: boolean;
 }
 
-export function DashboardScreen({ userName, userAvatar, completedLessons, onSelectApp, onProfileClick }: DashboardScreenProps) {
+export function Dashboard({ userName, userAvatar, completedLessons, onSelectApp, onProfileClick }: DashboardProps) {
   // Calcular progresso do WhatsApp baseado nas lições completadas
   const whatsappLessons = [
     { id: "whatsapp-lesson-1", title: "Enviando Mensagem", completed: completedLessons.includes("whatsapp-lesson-1") },

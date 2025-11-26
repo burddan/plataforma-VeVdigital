@@ -3,12 +3,12 @@ import { useState } from "react";
 import { User, UserCheck } from "lucide-react";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface GenderScreenProps {
+interface GeneroProps {
 		onContinue: (gender: 'masculino' | 'feminino') => void;
 		userName: string;
 }
 
-export function GenderScreen({ onContinue, userName }: GenderScreenProps) {
+export function Genero({ onContinue, userName }: GeneroProps) {
 		const { stopAudio } = useScreenAudio("sexo.mp3"); // <-- agora só coloca o nome do arquivo
 		const handleContinue = () => {
 				stopAudio();     // para o áudio

@@ -3,13 +3,13 @@ import { useState, useRef, useEffect } from "react";
 import { Camera, CheckCircle2, X, RotateCcw, Image } from "lucide-react";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface FaceRecognitionScreenProps {
+interface ReconhecimentoFacialProps {
 		onCapture: (photoUrl: string) => void;
 		onBack: () => void;
 		userName: string;
 }
 
-export function FaceRecognitionScreen({ onCapture, onBack, userName }: FaceRecognitionScreenProps) {
+export function ReconhecimentoFacial({ onCapture, onBack, userName }: ReconhecimentoFacialProps) {
 		const { stopAudio } = useScreenAudio("reconhecimento_facial.mp3"); // <-- agora só coloca o nome do arquivo
 		const handleContinue = () => {
 				stopAudio();     // para o áudio
