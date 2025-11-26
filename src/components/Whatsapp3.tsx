@@ -3,39 +3,40 @@ import { Button } from "./ui/button";
 import {
   ArrowLeft,
   Star,
+  Image as ImageIcon,
+  ArrowDown,
 } from "lucide-react";
-import instagramIcon from "../imagens/instagram-icon.png";
-import instagramStep1 from "../imagens/i1_1.png";
-import instagramStep2 from "../imagens/i2_1.png";
-import instagramStep3 from "../imagens/i3_1.png";
-import instagramStep4 from "../imagens/i4_1.png";
-import instagramStep5 from "../imagens/i5_1.png";
+import whatsappIcon from "../imagens/whatsapp-icon.png";
+import whatsappPhotoStep1 from "../imagens/whatsapp-licao3-foto-passo1.png";
+import whatsappPhotoStep2 from "../imagens/whatsapp-licao3-foto-passo2.png";
+import whatsappPhotoStep3 from "../imagens/whatsapp-licao3-foto-passo3.png";
+import whatsappPhotoStep4 from "../imagens/whatsapp-licao3-foto-passo4.png";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface InstagramLesson1ScreenProps {
+interface Whatsapp3Props {
   onComplete: () => void;
   onBack: () => void;
 }
 
-export function InstagramLesson1Screen({
+export function Whatsapp3({
   onComplete,
   onBack,
-}: InstagramLesson1ScreenProps) {
+}: Whatsapp3Props) {
   const [currentStep, setCurrentStep] = useState(1);
 
   // Use o hook useScreenAudio para tocar o áudio correspondente a cada etapa
   const { stopAudio } = useScreenAudio(
-    currentStep === 6 ? "licaoconcluida.mp3" : `i1_${currentStep}.mp3`
+    currentStep === 5 ? "licaoconcluida.mp3" : `w3_${currentStep}.mp3`
   );
 
   const handleNext = () => {
     // Para o áudio atual antes de mudar de etapa
     stopAudio();
     
-    if (currentStep < 5) {
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     } else {
-      setCurrentStep(6); // Tela final
+      setCurrentStep(5); // Tela final
     }
   };
 
@@ -50,9 +51,9 @@ export function InstagramLesson1Screen({
   };
 
   // Tela final de parabéns
-  if (currentStep === 6) {
+  if (currentStep === 5) {
     return (
-      <div className="size-full flex flex-col bg-gradient-to-b from-amber-50 to-orange-50">
+      <div className="size-full flex flex-col bg-linear-to-b from-amber-50 to-orange-50">
         {/* Header */}
         <div className="pt-10 px-6 pb-4">
           <div className="flex items-center justify-between">
@@ -64,7 +65,7 @@ export function InstagramLesson1Screen({
 
         {/* Conteúdo */}
         <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-          <div className="w-32 h-32 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center mb-6 shadow-2xl">
+          <div className="w-32 h-32 rounded-full bg-linear-to-br from-yellow-400 to-amber-500 flex items-center justify-center mb-6 shadow-2xl">
             <Star
               className="w-16 h-16 text-white"
               fill="white"
@@ -75,21 +76,21 @@ export function InstagramLesson1Screen({
             🎉 Parabéns!
           </h1>
           <p className="text-amber-800 text-2xl mb-8 leading-relaxed">
-            Você postou sua primeira foto!
+            Você enviou sua primeira foto!
           </p>
 
           <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg mb-8 w-full">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-orange-500 flex items-center justify-center flex-shrink-0">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
                 <img
-                  src={instagramIcon}
-                  alt="Instagram"
-                  className="w-8 h-8 text-white"
+                  src={whatsappIcon}
+                  alt="WhatsApp"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="text-left flex-1">
                 <h3 className="text-amber-900 text-xl mb-1">
-                  Primeira Foto 📸
+                  Fotógrafo do Zap 📸
                 </h3>
                 <p className="text-amber-700 text-base">
                   Conquistada! ✓
@@ -103,7 +104,7 @@ export function InstagramLesson1Screen({
         <div className="p-6 pb-8">
           <Button
             onClick={handleFinish}
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-lg h-16 rounded-xl text-xl"
+            className="w-full bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-lg h-16 rounded-xl text-xl"
           >
             Voltar para o Início
           </Button>
@@ -113,7 +114,7 @@ export function InstagramLesson1Screen({
   }
 
   return (
-    <div className="size-full flex flex-col bg-gradient-to-b from-amber-50 to-orange-50">
+    <div className="size-full flex flex-col bg-linear-to-b from-amber-50 to-orange-50">
       {/* Header */}
       <div className="pt-10 px-6 pb-4 border-b-2 border-orange-200">
         <div className="flex items-center justify-between mb-3">
@@ -126,11 +127,11 @@ export function InstagramLesson1Screen({
             <span className="text-lg">Voltar</span>
           </Button>
           <div className="text-amber-800 text-lg">
-            Passo {currentStep} de 5
+            Passo {currentStep} de 4
           </div>
         </div>
         <h2 className="text-amber-900 text-2xl text-center">
-          Postando uma Foto no Instagram
+          Enviando Foto no WhatsApp
         </h2>
       </div>
 
@@ -139,19 +140,24 @@ export function InstagramLesson1Screen({
         {/* Passo 1 */}
         {currentStep === 1 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem - Tela inicial do Instagram */}
+            {/* Imagem com botão interativo no clipe */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img 
-                src={instagramStep1} 
-                alt="Tela inicial do Instagram" 
+              <img
+                src={whatsappPhotoStep1}
+                alt="WhatsApp conversa"
                 className="w-full h-auto"
               />
+              {/* Botão sobre o ícone de clipe */}
+              <button
+                onClick={handleNext}
+                className="absolute bottom-2 left-6 w-10 h-10 rounded-full bg-orange-500 border-4 border-orange-600 hover:scale-110 transition-all shadow-lg animate-pulse"
+              ></button>
             </div>
 
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Este é o Instagram. Aqui você pode ver fotos e também postar as suas!
+                Para mandar uma foto para alguém, você precisa primeiro abrir a conversa. Depois, toque nesse botão de clipe aqui embaixo.
               </p>
             </div>
           </div>
@@ -160,26 +166,24 @@ export function InstagramLesson1Screen({
         {/* Passo 2 */}
         {currentStep === 2 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem - Ícone "+ Criar" destacado */}
+            {/* Imagem com botão interativo no botão Foto */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img 
-                src={instagramStep2} 
-                alt="Ícone '+ Criar' destacado" 
+              <img
+                src={whatsappPhotoStep2}
+                alt="Menu do WhatsApp"
                 className="w-full h-auto"
               />
-              {/* Botão interativo laranja - ajuste left/right conforme necessário */}
+              {/* Botão sobre o botão "Foto" azul */}
               <button
                 onClick={handleNext}
-                className="absolute w-16 h-16 rounded-full bg-orange-500/40 border-3 border-orange-500 hover:scale-110 transition-transform animate-pulse"
-                style={{ top: '10%', left: '10%', transform: 'translate(-50%, -50%)' }}
-              >
-              </button>
+                className="absolute top-[51%] right-[19%] w-16 h-16 rounded-full bg-orange-500 border-4 border-orange-600 hover:scale-110 transition-all shadow-lg animate-pulse"
+              ></button>
             </div>
 
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Para postar uma foto, toque neste botão de Criar. Ele serve para adicionar suas fotos no Instagram.
+                Aqui aparecem várias opções. Para escolher uma foto que já está no seu celular, toque em Galeria.
               </p>
             </div>
           </div>
@@ -188,26 +192,24 @@ export function InstagramLesson1Screen({
         {/* Passo 3 */}
         {currentStep === 3 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem - Galeria aberta com fotos */}
+            {/* Imagem com botão interativo na foto do churrasco */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img 
-                src={instagramStep3} 
-                alt="Galeria aberta com fotos" 
+              <img
+                src={whatsappPhotoStep3}
+                alt="Galeria de fotos"
                 className="w-full h-auto"
               />
-              {/* Botão interativo laranja - ajuste left/right conforme necessário */}
+              {/* Botão sobre a foto do churrasco (conteúdo marrom) */}
               <button
                 onClick={handleNext}
-                className="absolute w-16 h-16 rounded-full bg-orange-500/40 border-3 border-orange-500 hover:scale-110 transition-transform animate-pulse"
-                style={{ top: '68%', left: '60%', transform: 'translate(-50%, -50%)' }}
-              >
-              </button>
+                className="absolute top-[42%] left-[13%] w-16 h-16 rounded-full bg-orange-500 border-4 border-orange-600 hover:scale-110 transition-all shadow-lg animate-pulse"
+              ></button>
             </div>
 
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Escolha a foto que você quer postar. Pode ser uma foto da família, do seu dia ou algo que você goste!
+                Estas são suas fotos. Toque na foto que você quer enviar para seu netinho.
               </p>
             </div>
           </div>
@@ -216,11 +218,11 @@ export function InstagramLesson1Screen({
         {/* Passo 4 */}
         {currentStep === 4 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem - Tela de legenda habilitada */}
-            <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img 
-                src={instagramStep4} 
-                alt="Tela de legenda habilitada" 
+            {/* Imagem de pré-visualização da foto */}
+            <div className="w-full rounded-3xl shadow-xl overflow-hidden">
+              <img
+                src={whatsappPhotoStep4}
+                alt="Pré-visualização da foto"
                 className="w-full h-auto"
               />
             </div>
@@ -228,49 +230,21 @@ export function InstagramLesson1Screen({
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Aqui você pode escrever uma legenda simples. Exemplo: "Meu dia hoje 😊".
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Passo 5 */}
-        {currentStep === 5 && (
-          <div className="flex flex-col items-center space-y-6">
-            {/* Imagem - Botão "Compartilhar" */}
-            <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img 
-                src={instagramStep5} 
-                alt="Botão 'Compartilhar'" 
-                className="w-full h-auto"
-              />
-              {/* Botão interativo laranja - ajuste left/right conforme necessário */}
-              <button
-                onClick={handleNext}
-                className="absolute w-16 h-16 rounded-full bg-orange-500/40 border-3 border-orange-500 hover:scale-110 transition-transform animate-pulse"
-                style={{ top: '96%', left: '50%', transform: 'translate(-50%, -50%)' }}
-              >
-              </button>
-            </div>
-
-            {/* Texto explicativo */}
-            <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
-              <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Quando terminar, toque em Compartilhar. Sua foto será publicada no Instagram!
+                Antes de mandar, você pode ver como a foto ficou. Quando estiver tudo certo, toque no botão de enviar.
               </p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Botão fixo */}
-      {(currentStep === 1 || currentStep === 4) && (
+      {/* Botão fixo - só aparece no passo 4 */}
+      {currentStep === 4 && (
         <div className="p-6 pb-8">
           <Button
             onClick={handleNext}
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-lg h-16 rounded-xl text-xl"
+            className="w-full bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-lg h-16 rounded-xl text-xl"
           >
-            Próximo
+            Finalizar
           </Button>
         </div>
       )}

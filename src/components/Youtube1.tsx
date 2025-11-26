@@ -2,34 +2,35 @@ import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import {
   ArrowLeft,
-  MessageCircle,
-  Send,
   Star,
+  ImageIcon,
+  Search,
 } from "lucide-react";
-import whatsappScreen from "../imagens/whatsapp-licao1-tela1.png";
-import whatsappScreen2 from "../imagens/whatsapp-licao1-tela2.png";
-import whatsappScreen3 from "../imagens/whatsapp-licao1-tela3.png";
-import whatsappScreen4 from "../imagens/whatsapp-licao1-tela4.png";
-import whatsappIcon from "../imagens/whatsapp-icon.png";
+import youtubeIcon from "../imagens/youtube-icon.png";
+import youtubeStep1 from "../imagens/youtube-licao1-passo1.png";
+import youtubeStep2 from "../imagens/youtube-licao1-passo2.png";
+import youtubeStep3 from "../imagens/youtube-licao1-passo3.png";
+import youtubeStep4 from "../imagens/youtube-licao1-passo4.png";
+import youtubeStep5 from "../imagens/youtube-licao1-passo5.png";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface WhatsAppLessonScreenProps {
+interface Youtube1Props {
   onComplete: () => void;
   onBack: () => void;
 }
 
-export function WhatsAppLessonScreen({
+export function Youtube1({
   onComplete,
   onBack,
-}: WhatsAppLessonScreenProps) {
+}: Youtube1Props) {
   const [currentStep, setCurrentStep] = useState(1);
-
+  
   // Use o hook useScreenAudio para tocar o áudio correspondente a cada etapa
-  const { stopAudio } = useScreenAudio(currentStep === 5 ? "licaoconcluida.mp3" : `w1_${currentStep}.mp3`);
+  const { stopAudio } = useScreenAudio(currentStep === 6 ? "licaoconcluida.mp3" : `yt1_${currentStep}.mp3`);
 
-  // Para a tela final (passo 5), não toca áudio
+  // Para a tela final (passo 6), não toca áudio
   useEffect(() => {
-    if (currentStep === 5) {
+    if (currentStep === 6) {
     }
   }, [currentStep, stopAudio]);
 
@@ -37,10 +38,10 @@ export function WhatsAppLessonScreen({
     // Para o áudio atual antes de mudar de etapa
     stopAudio();
     
-    if (currentStep < 4) {
+    if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     } else {
-      setCurrentStep(5); // Tela final
+      setCurrentStep(6); // Tela final
     }
   };
 
@@ -55,7 +56,7 @@ export function WhatsAppLessonScreen({
   };
 
   // Tela final de parabéns
-  if (currentStep === 5) {
+  if (currentStep === 6) {
     return (
       <div className="size-full flex flex-col bg-linear-to-b from-amber-50 to-orange-50">
         {/* Header */}
@@ -80,21 +81,21 @@ export function WhatsAppLessonScreen({
             🎉 Parabéns!
           </h1>
           <p className="text-amber-800 text-2xl mb-8 leading-relaxed">
-            Você aprendeu algo novo hoje!
+            Você aprendeu a buscar vídeos no YouTube!
           </p>
 
           <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg mb-8 w-full">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
                 <img
-                  src={whatsappIcon}
-                  alt="WhatsApp"
+                  src={youtubeIcon}
+                  alt="YouTube"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="text-left flex-1">
                 <h3 className="text-amber-900 text-xl mb-1">
-                  Primeira Mensagem
+                  Explorador do YouTube 🔍
                 </h3>
                 <p className="text-amber-700 text-base">
                   Conquistada! ✓
@@ -131,11 +132,11 @@ export function WhatsAppLessonScreen({
             <span className="text-lg">Voltar</span>
           </Button>
           <div className="text-amber-800 text-lg">
-            Passo {currentStep} de 4
+            Passo {currentStep} de 5
           </div>
         </div>
         <h2 className="text-amber-900 text-2xl text-center">
-          Enviando Mensagem no WhatsApp
+          Procurando um Vídeo no YouTube
         </h2>
       </div>
 
@@ -144,11 +145,11 @@ export function WhatsAppLessonScreen({
         {/* Passo 1 */}
         {currentStep === 1 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem da tela do WhatsApp */}
-            <div className="w-full rounded-3xl shadow-xl overflow-hidden">
-              <img
-                src={whatsappScreen}
-                alt="Tela do WhatsApp"
+            {/* Imagem - Tela inicial do YouTube */}
+            <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
+              <img 
+                src={youtubeStep1} 
+                alt="Tela inicial do YouTube" 
                 className="w-full h-auto"
               />
             </div>
@@ -156,8 +157,7 @@ export function WhatsAppLessonScreen({
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Este é o WhatsApp. Ele serve para conversar com
-                pessoas e com seus netinhos!
+                Este é o YouTube! Aqui você pode encontrar vídeos de tudo: músicas, receitas e até vídeos engraçados. Clique em "Próximo" para começar.
               </p>
             </div>
           </div>
@@ -166,27 +166,26 @@ export function WhatsAppLessonScreen({
         {/* Passo 2 */}
         {currentStep === 2 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem com destaque */}
+            {/* Imagem com botão de busca interativo */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img
-                src={whatsappScreen2}
-                alt="Tela do WhatsApp com conversas"
+              <img 
+                src={youtubeStep2} 
+                alt="Barra de busca do YouTube" 
                 className="w-full h-auto"
               />
-
-              {/* Círculo laranja clicável */}
+              {/* Botão de busca no canto superior direito */}
               <button
                 onClick={handleNext}
-                className="absolute top-[52%] right-2 w-12 h-12 rounded-full bg-orange-500 border-4 border-orange-600 animate-pulse shadow-lg cursor-pointer"
-              ></button>
+                className="absolute w-10 h-10 rounded-full bg-orange-500/40 border-3 border-orange-500 flex items-center justify-center hover:scale-110 transition-transform animate-pulse"
+                style={{ top: '2%', right: '12%' }}
+              >
+              </button>
             </div>
 
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Cada pessoa são suas conversas, aqui você pode
-                entrar em cada conversa! Clique no seu Primo
-                Lucas para enviar uma mensagem pra ele
+                Para começar a buscar, toque na lupinha que fica no canto superior da tela. Depois disso, o teclado vai aparecer e você pode digitar o que quer assistir.
               </p>
             </div>
           </div>
@@ -195,27 +194,24 @@ export function WhatsAppLessonScreen({
         {/* Passo 3 */}
         {currentStep === 3 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem da conversa do WhatsApp */}
+            {/* Imagem - Sugestões de busca */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img
-                src={whatsappScreen3}
-                alt="Conversa com Primo Lucas no WhatsApp"
+              <img 
+                src={youtubeStep3} 
+                alt="Sugestões de busca do YouTube" 
                 className="w-full h-auto"
               />
-              
-              {/* Círculo laranja clicável */}
-              <button 
+              {/* Botão clicável */}
+              <button
                 onClick={handleNext}
-                className="absolute bottom-[0%] right-20 w-12 h-12 rounded-full bg-orange-500 border-4 border-orange-600 animate-pulse shadow-lg cursor-pointer"
+                className="absolute top-[71%] left-[88%] -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-orange-500/40 border-3 border-orange-500 hover:scale-110 transition-transform animate-pulse"
               ></button>
             </div>
 
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Aqui estão suas mensagens que você andou
-                conversando com seu Primo Lucas. Clique nesse botão
-                para começar uma conversa
+                Agora digite o que você quer assistir. Vamos procurar por receita de bolo como exemplo.
               </p>
             </div>
           </div>
@@ -224,40 +220,59 @@ export function WhatsAppLessonScreen({
         {/* Passo 4 */}
         {currentStep === 4 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem do teclado do WhatsApp */}
+            {/* Imagem com botão no meio */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img
-                src={whatsappScreen4}
-                alt="Teclado do WhatsApp aberto"
+              <img 
+                src={youtubeStep4} 
+                alt="Resultados de busca no YouTube" 
                 className="w-full h-auto"
               />
-              
-              {/* Círculo laranja clicável */}
-              <button 
+              {/* Botão no centro da tela */}
+              <button
                 onClick={handleNext}
-                className="absolute top-[79%] left-[80%] w-12 h-12 rounded-full bg-orange-500 border-4 border-orange-600 animate-pulse shadow-lg cursor-pointer"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-orange-500/40 border-3 border-orange-500 hover:scale-110 transition-transform animate-pulse"
               ></button>
             </div>
 
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Vai aparecer um teclado para você digitar a sua mensagem. Após terminar, 
-                clique no botão Enviar mensagem (↵).
+                Prontinho! Aqui aparecem vários vídeos sobre o que você pesquisou. Toque no vídeo que você quiser assistir.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Passo 5 */}
+        {currentStep === 5 && (
+          <div className="flex flex-col items-center space-y-6">
+            {/* Imagem - Página do vídeo */}
+            <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
+              <img 
+                src={youtubeStep5} 
+                alt="Vídeo aberto no YouTube" 
+                className="w-full h-auto"
+              />
+            </div>
+
+            {/* Texto explicativo */}
+            <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
+              <p className="text-amber-900 text-xl leading-relaxed text-center">
+                Para assistir, toque no botão de play. Agora é só aproveitar o vídeo!
               </p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Botão fixo - só aparece no passo 1 */}
-      {currentStep === 1 && (
+      {/* Botão fixo - escondido nos passos 2, 3 e 4 */}
+      {currentStep !== 2 && currentStep !== 3 && currentStep !== 4 && (
         <div className="p-6 pb-8">
           <Button
             onClick={handleNext}
             className="w-full bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-lg h-16 rounded-xl text-xl"
           >
-            Próximo
+            {currentStep < 5 ? "Próximo" : "Finalizar"}
           </Button>
         </div>
       )}

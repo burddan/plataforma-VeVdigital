@@ -5,7 +5,7 @@ import youtubeIcon from "../imagens/youtube-icon.png";
 import instagramIcon from "../imagens/instagram-icon.png";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface ProfileScreenProps {
+interface PerfilProps {
 		userName: string;
 		userAvatar: string;
 		userGender: 'masculino' | 'feminino';
@@ -24,7 +24,7 @@ interface Achievement {
 		color: string;
 }
 
-export function ProfileScreen({ userName, userAvatar, userGender, userBirthdate, unlockedAchievements, onBack }: ProfileScreenProps) {
+export function Perfil({ userName, userAvatar, userGender, userBirthdate, unlockedAchievements, onBack }: PerfilProps) {
 		//const { stopAudio } = useScreenAudio("inicio.mp3"); // <-- agora só coloca o nome do arquivo
 		const handleContinue = () => {
 				stopAudio();     // para o áudio

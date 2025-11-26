@@ -1,42 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "./ui/button";
 import {
   ArrowLeft,
   Star,
-  Image as ImageIcon,
-  ArrowDown,
+  Mic,
 } from "lucide-react";
 import whatsappIcon from "../imagens/whatsapp-icon.png";
-import whatsappPhotoStep1 from "../imagens/whatsapp-licao3-foto-passo1.png";
-import whatsappPhotoStep2 from "../imagens/whatsapp-licao3-foto-passo2.png";
-import whatsappPhotoStep3 from "../imagens/whatsapp-licao3-foto-passo3.png";
-import whatsappPhotoStep4 from "../imagens/whatsapp-licao3-foto-passo4.png";
+import whatsappAudioStep1 from "../imagens/whatsapp-licao2-audio-passo1.png";
+import whatsappAudioStep3 from "../imagens/whatsapp-licao2-audio-passo3.png";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface WhatsAppLesson3ScreenProps {
+interface Whatsapp2Props {
   onComplete: () => void;
   onBack: () => void;
 }
 
-export function WhatsAppLesson3Screen({
+export function Whatsapp2({
   onComplete,
   onBack,
-}: WhatsAppLesson3ScreenProps) {
+}: Whatsapp2Props) {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingProgress, setRecordingProgress] = useState(0);
+  const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Use o hook useScreenAudio para tocar o áudio correspondente a cada etapa
   const { stopAudio } = useScreenAudio(
-    currentStep === 5 ? "licaoconcluida.mp3" : `w3_${currentStep}.mp3`
+    currentStep === 4 ? "licaoconcluida.mp3" : `w2_${currentStep}.mp3`
   );
 
   const handleNext = () => {
     // Para o áudio atual antes de mudar de etapa
     stopAudio();
     
-    if (currentStep < 4) {
+    if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {
-      setCurrentStep(5); // Tela final
+      setCurrentStep(4); // Tela final
     }
   };
 
@@ -50,8 +51,62 @@ export function WhatsAppLesson3Screen({
     onComplete();
   };
 
+  const handleMouseDown = () => {
+    if (currentStep === 2) {
+      setIsRecording(true);
+      setRecordingProgress(0);
+
+      // Iniciar o progresso visual
+      progressIntervalRef.current = setInterval(() => {
+        setRecordingProgress((prev) => {
+          if (prev >= 100) {
+            return 100;
+          }
+          return prev + (100 / 30); // 3 segundos = 30 intervalos de 100ms
+        });
+      }, 100);
+
+      // Timer de 3 segundos
+      recordingTimerRef.current = setTimeout(() => {
+        setIsRecording(false);
+        setRecordingProgress(0);
+        if (progressIntervalRef.current) {
+          clearInterval(progressIntervalRef.current);
+        }
+        // Avançar para o próximo passo após 3 segundos
+        handleNext(); // Usar handleNext em vez de setCurrentStep diretamente
+      }, 3000);
+    }
+  };
+
+  const handleMouseUp = () => {
+    if (currentStep === 2 && isRecording) {
+      // Se soltar antes de 3 segundos, cancela
+      setIsRecording(false);
+      setRecordingProgress(0);
+      if (recordingTimerRef.current) {
+        clearTimeout(recordingTimerRef.current);
+      }
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
+    }
+  };
+
+  // Limpar timers ao desmontar
+  useEffect(() => {
+    return () => {
+      if (recordingTimerRef.current) {
+        clearTimeout(recordingTimerRef.current);
+      }
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
+    };
+  }, []);
+
   // Tela final de parabéns
-  if (currentStep === 5) {
+  if (currentStep === 4) {
     return (
       <div className="size-full flex flex-col bg-linear-to-b from-amber-50 to-orange-50">
         {/* Header */}
@@ -76,7 +131,7 @@ export function WhatsAppLesson3Screen({
             🎉 Parabéns!
           </h1>
           <p className="text-amber-800 text-2xl mb-8 leading-relaxed">
-            Você enviou sua primeira foto!
+            Você aprendeu algo novo hoje!
           </p>
 
           <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg mb-8 w-full">
@@ -90,7 +145,7 @@ export function WhatsAppLesson3Screen({
               </div>
               <div className="text-left flex-1">
                 <h3 className="text-amber-900 text-xl mb-1">
-                  Fotógrafo do Zap 📸
+                  Primeiro Áudio no WhatsApp
                 </h3>
                 <p className="text-amber-700 text-base">
                   Conquistada! ✓
@@ -127,11 +182,11 @@ export function WhatsAppLesson3Screen({
             <span className="text-lg">Voltar</span>
           </Button>
           <div className="text-amber-800 text-lg">
-            Passo {currentStep} de 4
+            Passo {currentStep} de 3
           </div>
         </div>
         <h2 className="text-amber-900 text-2xl text-center">
-          Enviando Foto no WhatsApp
+          Enviando Áudio no WhatsApp
         </h2>
       </div>
 
@@ -140,24 +195,19 @@ export function WhatsAppLesson3Screen({
         {/* Passo 1 */}
         {currentStep === 1 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem com botão interativo no clipe */}
+            {/* Imagem - Tela da conversa com ícone de microfone */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img
-                src={whatsappPhotoStep1}
-                alt="WhatsApp conversa"
+              <img 
+                src={whatsappAudioStep1} 
+                alt="Tela do WhatsApp com botão de microfone" 
                 className="w-full h-auto"
               />
-              {/* Botão sobre o ícone de clipe */}
-              <button
-                onClick={handleNext}
-                className="absolute bottom-2 left-6 w-10 h-10 rounded-full bg-orange-500 border-4 border-orange-600 hover:scale-110 transition-all shadow-lg animate-pulse"
-              ></button>
             </div>
 
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Para mandar uma foto para alguém, você precisa primeiro abrir a conversa. Depois, toque nesse botão de clipe aqui embaixo.
+                Às vezes é mais fácil falar do que digitar, não é? Esse botão com o microfone serve para enviar uma mensagem de voz!
               </p>
             </div>
           </div>
@@ -166,24 +216,45 @@ export function WhatsAppLesson3Screen({
         {/* Passo 2 */}
         {currentStep === 2 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem com botão interativo no botão Foto */}
+            {/* Imagem - Tela da conversa com ícone de microfone e botão pressionável */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img
-                src={whatsappPhotoStep2}
-                alt="Menu do WhatsApp"
+              <img 
+                src={whatsappAudioStep1} 
+                alt="Tela do WhatsApp com botão de microfone" 
                 className="w-full h-auto"
               />
-              {/* Botão sobre o botão "Foto" azul */}
+              {/* Círculo laranja apenas bordas - pressionar e segurar */}
+              {/* LOCALIZAÇÃO: Passo 2 - Botão de gravação de áudio (pressionar e segurar 3s) */}
               <button
-                onClick={handleNext}
-                className="absolute top-[51%] right-[19%] w-16 h-16 rounded-full bg-orange-500 border-4 border-orange-600 hover:scale-110 transition-all shadow-lg animate-pulse"
-              ></button>
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onTouchStart={handleMouseDown}
+                onTouchEnd={handleMouseUp}
+                className={`absolute bottom-0 right-0 w-11 h-11 rounded-full border-4 ${
+                  isRecording ? 'border-red-500 bg-red-100' : 'border-orange-500'
+                } transition-all flex items-center justify-center`}
+                style={{
+                  background: isRecording 
+                    ? `conic-gradient(#ef4444 ${recordingProgress}%, transparent ${recordingProgress}%)`
+                    : 'transparent'
+                }}
+              >
+                {isRecording && (
+                  <div className="w-full h-full rounded-full bg-white/80 flex items-center justify-center">
+                    <Mic className="w-5 h-5 text-red-500" />
+                  </div>
+                )}
+              </button>
             </div>
 
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Aqui aparecem várias opções. Para escolher uma foto que já está no seu celular, toque em Galeria.
+                {isRecording 
+                  ? "Continue segurando... 🎤"
+                  : "Toque e segure o botão do microfone enquanto fala. Quando terminar, solte o botão para enviar seu áudio."
+                }
               </p>
             </div>
           </div>
@@ -192,37 +263,11 @@ export function WhatsAppLesson3Screen({
         {/* Passo 3 */}
         {currentStep === 3 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem com botão interativo na foto do churrasco */}
+            {/* Imagem - Mensagem de áudio enviada */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
-              <img
-                src={whatsappPhotoStep3}
-                alt="Galeria de fotos"
-                className="w-full h-auto"
-              />
-              {/* Botão sobre a foto do churrasco (conteúdo marrom) */}
-              <button
-                onClick={handleNext}
-                className="absolute top-[42%] left-[13%] w-16 h-16 rounded-full bg-orange-500 border-4 border-orange-600 hover:scale-110 transition-all shadow-lg animate-pulse"
-              ></button>
-            </div>
-
-            {/* Texto explicativo */}
-            <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
-              <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Estas são suas fotos. Toque na foto que você quer enviar para seu netinho.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Passo 4 */}
-        {currentStep === 4 && (
-          <div className="flex flex-col items-center space-y-6">
-            {/* Imagem de pré-visualização da foto */}
-            <div className="w-full rounded-3xl shadow-xl overflow-hidden">
-              <img
-                src={whatsappPhotoStep4}
-                alt="Pré-visualização da foto"
+              <img 
+                src={whatsappAudioStep3} 
+                alt="Mensagem de áudio enviada no WhatsApp" 
                 className="w-full h-auto"
               />
             </div>
@@ -230,21 +275,21 @@ export function WhatsAppLesson3Screen({
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Antes de mandar, você pode ver como a foto ficou. Quando estiver tudo certo, toque no botão de enviar.
+                Perfeito! Agora seu netinho vai poder ouvir sua voz.
               </p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Botão fixo - só aparece no passo 4 */}
-      {currentStep === 4 && (
+      {/* Botão fixo - escondido no passo 2 */}
+      {currentStep !== 2 && (
         <div className="p-6 pb-8">
           <Button
             onClick={handleNext}
             className="w-full bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-lg h-16 rounded-xl text-xl"
           >
-            Finalizar
+            {currentStep < 3 ? "Próximo" : "Finalizar"}
           </Button>
         </div>
       )}

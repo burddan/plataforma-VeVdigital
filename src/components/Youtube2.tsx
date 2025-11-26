@@ -2,32 +2,35 @@ import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import {
   ArrowLeft,
-  MessageCircle,
+  Star,
+  ImageIcon,
 } from "lucide-react";
 import youtubeIcon from "../imagens/youtube-icon.png";
-import youtubeStep1 from "../imagens/youtube-licao3-passo1.png";
-import youtubeStep2 from "../imagens/youtube-licao3-passo2.png";
-import youtubeStep4 from "../imagens/youtube-licao3-passo4.png";
-// Passo 3 não tem imagem ainda
+import youtubeStep1 from "../imagens/youtube-licao2-passo1.png";
+import youtubeStep2 from "../imagens/youtube-licao2-passo2.png";
+import youtubeStep3 from "../imagens/youtube-licao2-passo3.png";
+import youtubeStep4 from "../imagens/youtube-licao2-passo4.png";
+import youtubeStep5 from "../imagens/youtube-licao2-passo5.png";
+import youtubeStep6 from "../imagens/youtube-licao2-passo6.png";
 import { useScreenAudio } from "../useScreenAudio";
 
-interface YouTubeLesson3ScreenProps {
+interface Youtube2Props {
   onComplete: () => void;
   onBack: () => void;
 }
 
-export function YouTubeLesson3Screen({
+export function Youtube2({
   onComplete,
   onBack,
-}: YouTubeLesson3ScreenProps) {
+}: Youtube2Props) {
   const [currentStep, setCurrentStep] = useState(1);
 
   // Use o hook useScreenAudio para tocar o áudio correspondente a cada etapa
-  const { stopAudio } = useScreenAudio(currentStep === 5 ? "licaoconcluida.mp3" : `yt1_${currentStep}.mp3`);
+  const { stopAudio } = useScreenAudio(currentStep === 7 ? "licaoconcluida.mp3" : `yt1_${currentStep}.mp3`);
 
-  // Para a tela final (passo 5), não toca áudio
+  // Para a tela final (passo 7), não toca áudio
   useEffect(() => {
-    if (currentStep === 5) {
+    if (currentStep === 7) {
     }
   }, [currentStep, stopAudio]);
 
@@ -35,10 +38,10 @@ export function YouTubeLesson3Screen({
     // Para o áudio atual antes de mudar de etapa
     stopAudio();
     
-    if (currentStep < 4) {
+    if (currentStep < 6) {
       setCurrentStep(currentStep + 1);
     } else {
-      setCurrentStep(5); // Tela final
+      setCurrentStep(7); // Tela final
     }
   };
 
@@ -53,7 +56,7 @@ export function YouTubeLesson3Screen({
   };
 
   // Tela final de parabéns
-  if (currentStep === 5) {
+  if (currentStep === 7) {
     return (
       <div className="size-full flex flex-col bg-linear-to-b from-amber-50 to-orange-50">
         {/* Header */}
@@ -68,7 +71,7 @@ export function YouTubeLesson3Screen({
         {/* Conteúdo */}
         <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
           <div className="w-32 h-32 rounded-full bg-linear-to-br from-yellow-400 to-amber-500 flex items-center justify-center mb-6 shadow-2xl">
-            <MessageCircle
+            <Star
               className="w-16 h-16 text-white"
               fill="white"
             />
@@ -78,7 +81,7 @@ export function YouTubeLesson3Screen({
             🎉 Parabéns!
           </h1>
           <p className="text-amber-800 text-2xl mb-8 leading-relaxed">
-            Você comentou seu primeiro vídeo no YouTube!
+            Você aprendeu a apoiar um canal e receber novos vídeos!
           </p>
 
           <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg mb-8 w-full">
@@ -92,7 +95,7 @@ export function YouTubeLesson3Screen({
               </div>
               <div className="text-left flex-1">
                 <h3 className="text-amber-900 text-xl mb-1">
-                  Falador do YouTube 💬
+                  Fã Oficial do Canal 🔔👍
                 </h3>
                 <p className="text-amber-700 text-base">
                   Conquistada! ✓
@@ -129,11 +132,11 @@ export function YouTubeLesson3Screen({
             <span className="text-lg">Voltar</span>
           </Button>
           <div className="text-amber-800 text-lg">
-            Passo {currentStep} de 4
+            Passo {currentStep} de 6
           </div>
         </div>
         <h2 className="text-amber-900 text-2xl text-center">
-          Comentando e lendo comentários
+          Curtir e Receber Novos Vídeos
         </h2>
       </div>
 
@@ -142,18 +145,18 @@ export function YouTubeLesson3Screen({
         {/* Passo 1 */}
         {currentStep === 1 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem - Página do vídeo com área de comentários */}
+            {/* Imagem - Página do vídeo com botões */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
               <img 
                 src={youtubeStep1} 
-                alt="Página do vídeo com área de comentários" 
+                alt="Página do vídeo com botões de interação" 
                 className="w-full h-auto"
               />
-              {/* Botão de destaque laranja - CLICÁVEL */}
+              {/* Botão de destaque laranja no like - CLICÁVEL */}
               <button 
                 onClick={handleNext}
                 className="absolute cursor-pointer hover:scale-110 transition-transform" 
-                style={{ top: '85%', left: '50%', transform: 'translateX(-50%)' }}
+                style={{ top: '85%', left: '4%' }}
               >
                 <div className="w-12 h-12 rounded-full bg-orange-500/40 border-3 border-orange-500 animate-pulse"></div>
               </button>
@@ -162,7 +165,7 @@ export function YouTubeLesson3Screen({
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Para ver os comentários, deslize a tela para baixo. Lá você encontra o que outras pessoas falaram sobre o vídeo.
+                Quando você gosta de um vídeo, toque no botão gostei (👍). Isso mostra que você curtiu e ajuda o canal a saber que você gostou.
               </p>
             </div>
           </div>
@@ -171,11 +174,11 @@ export function YouTubeLesson3Screen({
         {/* Passo 2 */}
         {currentStep === 2 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem - Lista de comentários */}
+            {/* Imagem - Botão gostei preenchido */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden">
               <img 
                 src={youtubeStep2} 
-                alt="Lista de comentários" 
+                alt="Botão gostei marcado" 
                 className="w-full h-auto"
               />
             </div>
@@ -183,7 +186,7 @@ export function YouTubeLesson3Screen({
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Aqui estão os comentários! Você pode ler, curtir e até responder algum se quiser.
+                Ótimo! Você tocou no botão gostei e ele ficou marcado. Isso quer dizer que o vídeo recebeu o seu like!
               </p>
             </div>
           </div>
@@ -192,18 +195,18 @@ export function YouTubeLesson3Screen({
         {/* Passo 3 */}
         {currentStep === 3 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem - Campo "Adicionar um comentário" */}
+            {/* Imagem - Botão Inscrever-se destacado */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
               <img 
-                src={youtubeStep2} 
-                alt="Campo Adicionar um comentário" 
+                src={youtubeStep3} 
+                alt="Botão Inscrever-se" 
                 className="w-full h-auto"
               />
-              {/* Botão de destaque laranja - CLICÁVEL */}
+              {/* Botão de destaque laranja no Inscrever-se - CLICÁVEL */}
               <button 
                 onClick={handleNext}
                 className="absolute cursor-pointer hover:scale-110 transition-transform" 
-                style={{ top: '92%', left: '50%', transform: 'translateX(-50%)' }}
+                style={{ top: '3%', left: '80%' }}
               >
                 <div className="w-12 h-12 rounded-full bg-orange-500/40 border-3 border-orange-500 animate-pulse"></div>
               </button>
@@ -212,7 +215,7 @@ export function YouTubeLesson3Screen({
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Quer escrever o seu? Toque neste espaço aqui onde está escrito Adicionar um comentário….
+                Se você gosta muito desse canal, toque em Inscrever-se. Assim fica mais fácil encontrar os vídeos dele depois.
               </p>
             </div>
           </div>
@@ -221,18 +224,18 @@ export function YouTubeLesson3Screen({
         {/* Passo 4 */}
         {currentStep === 4 && (
           <div className="flex flex-col items-center space-y-6">
-            {/* Imagem - Teclado e comentário sendo digitado */}
+            {/* Imagem - Sininho destacado */}
             <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
               <img 
                 src={youtubeStep4} 
-                alt="Teclado e comentário sendo digitado" 
+                alt="Sininho de notificações" 
                 className="w-full h-auto"
               />
-              {/* Botão de destaque laranja - CLICÁVEL */}
+              {/* Botão de destaque laranja no sininho - CLICÁVEL */}
               <button 
                 onClick={handleNext}
                 className="absolute cursor-pointer hover:scale-110 transition-transform" 
-                style={{ top: '30%', right: '0%' }}
+                style={{ top: '3%', left: '84%' }}
               >
                 <div className="w-12 h-12 rounded-full bg-orange-500/40 border-3 border-orange-500 animate-pulse"></div>
               </button>
@@ -241,21 +244,71 @@ export function YouTubeLesson3Screen({
             {/* Texto explicativo */}
             <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
               <p className="text-amber-900 text-xl leading-relaxed text-center">
-                Digite aqui o seu comentário —, por exemplo, 'Gostei muito!'. Quando terminar, toque no botão de enviar para publicar sua mensagem.
+                Depois de se inscrever, toque no sininho para escolher se quer receber todos os avisos.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Passo 5 */}
+        {currentStep === 5 && (
+          <div className="flex flex-col items-center space-y-6">
+            {/* Imagem - Opções do sininho com "Todas" destacado */}
+            <div className="w-full rounded-3xl shadow-xl overflow-hidden relative">
+              <img 
+                src={youtubeStep5} 
+                alt="Opções de notificação" 
+                className="w-full h-auto"
+              />
+              {/* Botão de destaque laranja na opção "Todas" - CLICÁVEL */}
+              <button 
+                onClick={handleNext}
+                className="absolute cursor-pointer hover:scale-110 transition-transform" 
+                style={{ top: '58%', left: '23%', transform: 'translateX(-50%)' }}
+              >
+                <div className="w-12 h-12 rounded-full bg-orange-500/40 border-3 border-orange-500 animate-pulse"></div>
+              </button>
+            </div>
+
+            {/* Texto explicativo */}
+            <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
+              <p className="text-amber-900 text-xl leading-relaxed text-center">
+                Para receber todos os avisos desse canal, toque na opção Todas. Assim você nunca perde nenhum vídeo novo!
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Passo 6 */}
+        {currentStep === 6 && (
+          <div className="flex flex-col items-center space-y-6">
+            {/* Imagem - Confirmação de inscrição e sininho ativo */}
+            <div className="w-full rounded-3xl shadow-xl overflow-hidden">
+              <img 
+                src={youtubeStep6} 
+                alt="Tudo configurado" 
+                className="w-full h-auto"
+              />
+            </div>
+
+            {/* Texto explicativo */}
+            <div className="bg-white border-4 border-orange-300 rounded-2xl p-6 shadow-lg">
+              <p className="text-amber-900 text-xl leading-relaxed text-center">
+                Prontinho — agora você curte os vídeos que gostou e recebe avisos quando o canal publicar algo novo. Fácil, né?
               </p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Botão fixo - só aparece no passo 2 */}
-      {currentStep === 2 && (
+      {/* Botão fixo - apenas nos passos sem botão laranja */}
+      {(currentStep !== 1 && currentStep !== 3 && currentStep !== 4 && currentStep !== 5) && (
         <div className="p-6 pb-8">
           <Button
             onClick={handleNext}
             className="w-full bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-lg h-16 rounded-xl text-xl"
           >
-            Próximo
+            {currentStep < 6 ? "Próximo" : "Finalizar"}
           </Button>
         </div>
       )}
